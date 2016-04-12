@@ -27,6 +27,7 @@
 #include <opencv2/core/mat.hpp>
 #include <opencv2/core/operations.hpp>
 #include "common/camera.hpp"
+#include "rendering/cv_utils.hpp"
 #include "rendering/vtk_utils.hpp"
 
 namespace ret {
@@ -49,10 +50,9 @@ namespace ret {
             return cam_idx;
         }
 
-        cv::Mat GetOpticalRay(cv::Point3d vertex, Camera &cam) {
-            auto optic_ray = cv::Mat(vertex - cam.getCenter());
-            cv::normalize(optic_ray, optic_ray);
-            return optic_ray;
+        cv::Vec3d GetOpticalRay(cv::Point3d vertex, const Camera &cam) {
+            auto optic_ray = cv::Vec3d(vertex - cam.getCenter());
+            return NormalizeVec3(optic_ray);
         }
 
         void RefineMesh(vtkSmartPointer<vtkPolyData> mesh,
@@ -64,8 +64,8 @@ namespace ret {
 
                 auto normal = GetNormal(meshNormals, idx);
                 auto vertex = GetVertex(mesh, idx);
-                int cam_idx = GetMiddleCamera(normal, dataset);
-
+                auto cam_idx = GetMiddleCamera(normal, dataset);
+                auto optic_ray = GetOpticalRay(vertex, dataset[cam_idx]);
             }
         }
     }

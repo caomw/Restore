@@ -21,6 +21,7 @@
 #ifndef RENDERING_CV_UTILS_HPP
 #define RENDERING_CV_UTILS_HPP
 
+#include <cmath>
 #include <opencv2/core/core.hpp>
 
 #include "common/camera.hpp"
@@ -28,7 +29,7 @@
 namespace ret {
 
 template <typename coord, typename point>
-coord project(const Camera& cam, const point& v) {
+coord Project3DPoint(const Camera &cam, const point &v) {
 
     coord im;
 
@@ -48,6 +49,16 @@ coord project(const Camera& cam, const point& v) {
 
     return im;
 }
+
+    template<typename Vec>
+    Vec NormalizeVec3(const Vec &vec) {
+        auto accum = 0.0;
+        for (auto i = 0; i < 3; ++i) {
+            accum += vec[i] * vec[i];
+        }
+        return (1. / std::sqrt(accum)) * vec;
+    }
+
 }  // namespace ret
 
 #endif

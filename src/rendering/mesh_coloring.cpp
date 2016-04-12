@@ -65,21 +65,19 @@ namespace rendering {
     static_assert(std::is_standard_layout<Color<double>>::value,
                   "Color isn't standard layout");
 
-    cv::Vec3b getColor(const cv::Mat &img, cv::Point2f pt) {
+    cv::Vec3b GetPixelColor(const cv::Mat &img, cv::Point2f pt) {
         return img.at<cv::Vec3b>(pt.y, pt.x);
     }
 
-    Color<double> getAverageColor(const vtkSmartPointer<vtkPolyData> &mesh,
+    Color<double> GetAverageColor(const vtkSmartPointer<vtkPolyData> &mesh,
                                   const std::vector<Camera> &dataset, int idx,
                                   const std::map<size_t, double> &angles) {
         Color<double> color;
         for (const auto &angle : angles) {
-            double v[3];
-            mesh->GetPoint(idx, v);
-            Camera cam = dataset[angle.first];
-            auto col_pix = project<cv::Point2f, cv::Point3d>(
-                cam, cv::Point3d(v[0], v[1], v[2]));
-            color += getColor(cam.getImage(), col_pix) * angle.second;
+            const Camera cam = dataset[angle.first];
+            auto pix_coord = Project3DPoint<cv::Point2f, cv::Point3d>(
+                cam, GetVertex(mesh, idx));
+            color += GetPixelColor(cam.getImage(), pix_coord) * angle.second;
         }
 
         // weighted mean average color for each vertex
@@ -108,7 +106,7 @@ namespace rendering {
                 }
             }
 
-            Color<double> color = getAverageColor(mesh, dataset, idx, angles);
+            Color<double> color = GetAverageColor(mesh, dataset, idx, angles);
             colors->InsertNextTuple(reinterpret_cast<double *>(&color));
         }
         mesh->GetPointData()->SetScalars(colors);

@@ -74,7 +74,8 @@ namespace rendering {
                 for (k = 0; k < voxel_dim_; ++k) {
 
                     auto voxel = calcVoxelPosInCamViewFrustum(i, j, k);
-                    auto coord = project<cv::Point2f, cv::Point3f>(cam, voxel);
+                    auto coord =
+                        Project3DPoint<cv::Point2f, cv::Point3f>(cam, voxel);
                     auto dist  = -1.0f;
                     if (inside(coord, img_size)) {
                         dist = DistImage.at<float>(coord);

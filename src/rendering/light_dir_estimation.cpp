@@ -70,7 +70,8 @@ namespace rendering {
             auto cam_normal = cam.getDirection();
             auto angle      = normal.dot(cam_normal);
             if (angle >= vis_angle_thresh_) {
-                auto coord = project<cv::Point2f, cv::Point3d>(cam, pt_vishull);
+                auto coord =
+                    Project3DPoint<cv::Point2f, cv::Point3d>(cam, pt_vishull);
                 contour_points_.emplace_back(
                     calib::contour_point(normal, Grayscale.at<uchar>(coord)));
             }
