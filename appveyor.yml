@@ -5,6 +5,9 @@ configuration: Debug
 matrix:
   fast_finish: true
 
+install:
+  - choco install OpenCV
+
 build_script:
   - mkdir build
   - cd build
