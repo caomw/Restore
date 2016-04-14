@@ -6,7 +6,7 @@ matrix:
   fast_finish: true
 
 install:
-  - choco install OpenCV
+  - cinst OpenCV
 
 build_script:
   - mkdir build
