@@ -6,7 +6,7 @@ matrix:
   fast_finish: true
 
 install:
-  - cinst OpenCV
+  - choco install opencv -version 2.4.9.20140518
 
 build_script:
   - mkdir build
