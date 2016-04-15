@@ -6,7 +6,7 @@ matrix:
   fast_finish: true
 
 environment:
-  OpenCV_DIR: c:\OpenCV249\opencv\build
+  OpenCV_DIR: c:\OpenCV249\opencv\build\x64\vc11
 
 install:
   - choco install opencv -version 2.4.9.20140518
