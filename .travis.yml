@@ -29,13 +29,13 @@ install:
   # install VTK from source, since there exists no release version
   - wget --no-check-certificate http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz
     && tar -xzf VTK-7.0.0.tar.gz && cd VTK-7.0.0/ && mkdir build && cd build
-  - cmake -DVTK_QT_VERSION:STRING=5 >
-    -DQT_QMAKE_EXECUTABLE:PATH=$(which qmake) -DVTK_Group_Qt:BOOL=ON >
-    -DBUILD_SHARED_LIBS:BOOL=ON -DVTK_Group_StandAlone=OFF >
-    -DVTK_Group_Imaging=OFF -DVTK_Group_MPI=OFF -DVTK_Group_Rendering=OFF >
-    -DVTK_Group_Tk=OFF -DVTK_Group_Views=OFF -DVTK_Group_Web=OFF >
-    -DBUILD_TESTING=OFF -DVTK_USE_LARGE_DATA=OFF -DVTK_FORBID_DOWNLOADS=ON >
-    -DBUILD_EXAMPLES=OFF -DVTK_WRAP_PYTHON=OFF -DVTK_WRAP_JAVA=OFF >
+  - cmake -DVTK_QT_VERSION:STRING=5
+    -DQT_QMAKE_EXECUTABLE:PATH=$(which qmake) -DVTK_Group_Qt:BOOL=ON
+    -DBUILD_SHARED_LIBS:BOOL=ON -DVTK_Group_StandAlone=OFF
+    -DVTK_Group_Imaging=OFF -DVTK_Group_MPI=OFF -DVTK_Group_Rendering=OFF
+    -DVTK_Group_Tk=OFF -DVTK_Group_Views=OFF -DVTK_Group_Web=OFF
+    -DBUILD_TESTING=OFF -DVTK_USE_LARGE_DATA=OFF -DVTK_FORBID_DOWNLOADS=ON
+    -DBUILD_EXAMPLES=OFF -DVTK_WRAP_PYTHON=OFF -DVTK_WRAP_JAVA=OFF
     -DVTK_WRAP_TCL=OFF -DBUILD_DOCUMENTATION=OFF ..
   - cmake --build .
   - cd ${TRAVIS_BUILD_DIR}
