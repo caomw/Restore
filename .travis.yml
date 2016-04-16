@@ -17,9 +17,8 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - alias WGET="wget --no-check-certificate"
   # install latest CMake 3.5.0
-  - WGET https://cmake.org/files/v3.5/cmake-3.5.0-Linux-x86_64.tar.gz
+  - wget --no-check-certificate https://cmake.org/files/v3.5/cmake-3.5.0-Linux-x86_64.tar.gz
     && tar -xzf cmake-3.5.0-Linux-x86_64.tar.gz
     && sudo cp -fR cmake-3.5.0-Linux-x86_64/* /usr
   # install project dependencies
@@ -28,7 +27,7 @@ install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
   # install VTK from source, since there exists no release version
-  - WGET http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz
+  - wget --no-check-certificate http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz
     && tar -xzf VTK-7.0.0.tar.gz && cd VTK-7.0.0/ && mkdir build && cd build
   - cmake -DVTK_QT_VERSION:STRING=5 >
     -DQT_QMAKE_EXECUTABLE:PATH=$(which qmake) -DVTK_Group_Qt:BOOL=ON >
@@ -41,7 +40,7 @@ install:
   - cmake --build .
   - cd ${TRAVIS_BUILD_DIR}
   # install latest LCOV
-  - WGET http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz
+  - wget --no-check-certificate http://ftp.de.debian.org/debian/pool/main/l/lcov/lcov_1.11.orig.tar.gz
   - tar -xf lcov_1.11.orig.tar.gz
   - sudo make -C lcov-1.11/ install
   - gem install coveralls-lcov
