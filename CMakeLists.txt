@@ -31,7 +31,8 @@ include(cmake/ide_project_layout.cmake REQUIRED)
 # Required packages
 find_package(OpenCV REQUIRED core imgproc calib3d highgui)
 find_package(Boost COMPONENTS filesystem system REQUIRED)
-find_package(VTK REQUIRED NO_MODULE)
+find_package(VTK 7.0 COMPONENTS vtkCommonCore vtkCommonDataModel vtkFiltersCore
+    vtkRenderingCore vtkRenderingOpenGL2 vtkGUISupportQt vtkRenderingQt vtkViewsQt REQUIRED)
 find_package(Qt5Widgets REQUIRED QUIET)
 find_program(iwyu_path NAMES include-what-you-use iwyu)
 
