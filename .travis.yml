@@ -48,7 +48,7 @@ install:
 before_script:
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_CODE_COVERAGE=ON >
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_CODE_COVERAGE=ON 
     -DCMAKE_PREFIX_PATH=${TRAVIS_BUILD_DIR}/VTK-7.0.0/build/ ..
 
 script:
