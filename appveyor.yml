@@ -1,33 +1,20 @@
 os: Visual Studio 2015
-
-configuration: Debug
-matrix:
-  fast_finish: true
+platform: x64
 
 install:
+  - cmd: echo "Downloading conan..."
+  - ps: wget https://s3-eu-west-1.amazonaws.com/conanio-production/downloads/conan-win_0_8_6.exe -OutFile conan_installer.exe
+  - cmd: conan_installer.exe /VERYSILENT
+  - cmd: set PATH=%PATH%;c:\Program Files (x86)\Conan\conan
   - choco install opencv -version 2.4.9.20140518
-  - choco install boost-msvc-12
   - set QTDIR=c:\Qt\5.6\msvc2015_64
   - set PATH=%PATH%;%QTDIR%\bin
-  - git clone https://github.com/Kitware/VTK
-  - cd VTK && git checkout tags/v7.0.0
-  - mkdir build && cd build
-  - cmake -DVTK_QT_VERSION:STRING=5 >
-    -DQT_QMAKE_EXECUTABLE:PATH=c:/Qt/5.6/msvc2015_64/bin/qmake.exe >
-    -DVTK_Group_Qt=OFF -DModule_vtkGUISupportQt=ON -DBUILD_SHARED_LIBS:BOOL=ON >
-    -DVTK_Group_StandAlone=OFF -DVTK_Group_Imaging=OFF -DVTK_Group_MPI=OFF >
-    -DVTK_Group_Rendering=OFF -DVTK_Group_Tk=OFF -DVTK_Group_Views=OFF >
-    -DVTK_Group_Web=OFF -DBUILD_TESTING=OFF -DVTK_USE_LARGE_DATA=OFF >
-    -DVTK_FORBID_DOWNLOADS=ON -DBUILD_EXAMPLES=OFF -DVTK_WRAP_PYTHON=OFF >
-    -DVTK_WRAP_JAVA=OFF -DVTK_WRAP_TCL=OFF -DBUILD_DOCUMENTATION=OFF ..
-  - cmake --build .
 
 build_script:
+  - conan install Boost/1.60.0@lasote/stable -s arch="x86_64" -s build_type="Release" -s compiler="Visual Studio" -s compiler.runtime="MD" -s compiler.version="14" -s os="Windows" -o shared="True" 
+  - conan install VTK/7.0.0@bilke/stable -s arch="x86_64" -s build_type="Release" -s compiler="Visual Studio" -s compiler.runtime="MD" -s compiler.version="14" -s os="Windows" -o shared="False" 
   - cd %APPVEYOR_BUILD_FOLDER%
   - mkdir build
   - cd build
-  - cmake -G "Visual Studio 12" >
-    -DOpenCV_DIR=c:/OpenCV249/opencv/build >
-    -DBOOST_ROOT=c:/local/boost_1_58_0 >
-    -DBOOST_LIBRARYDIR=c:/local/boost_1_58_0/lib64-msvc-12.0 ..
+  - cmake -G "Visual Studio 12" -DOpenCV_DIR=c:/OpenCV249/opencv/build ..
   - cmake --build .
