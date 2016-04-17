@@ -68,10 +68,9 @@ namespace rendering {
         const auto DistImage = filtering::CreateDistMap(Mask);
         const auto img_size  = Mask.size();
 
-        std::size_t i, j, k;
-        for (i = 0; i < voxel_dim_; ++i) {
-            for (j = 0; j < voxel_dim_; ++j) {
-                for (k = 0; k < voxel_dim_; ++k) {
+        for (auto i = 0; i < voxel_dim_; ++i) {
+            for (auto j = 0; j < voxel_dim_; ++j) {
+                for (auto k = 0; k < voxel_dim_; ++k) {
 
                     auto voxel = calcVoxelPosInCamViewFrustum(i, j, k);
                     auto coord =

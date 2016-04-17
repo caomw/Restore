@@ -28,5 +28,12 @@ projection matrix from every camera image to be known.
 
 ![Visual Hull](doc/img/voxelcarving-squirrel.gif)
 
+## Texture-based mesh refinement
+With the visual hull as a first rough estimation of the final mesh
+reconstruction, we can use the texture information from the given camera images
+to calculate an offset for each vertex. Since the visual hull is known to be the
+maximum volume (encapsulating the ground truth of the model) each vertex is
+either part of the ground truth (no offset needed) or part of the visual hull.
+
 ## License
 RESTORE is released under the terms of the MIT License.
