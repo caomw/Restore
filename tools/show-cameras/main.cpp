@@ -33,7 +33,6 @@
 #include <vtkSmartPointer.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
-#include <vtkCubeAxesActor.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderer.h>
 #include <vtkRenderWindowInteractor.h>
@@ -67,19 +66,6 @@ std::shared_ptr<DataSet> loadDataSet(const std::string &path,
     }
 
     return ds;
-}
-
-void displayBoundingBox(const bb_bounds& bbox,
-                        vtkSmartPointer<vtkRenderer> renderer) {
-
-    auto bb_actor = vtkSmartPointer<vtkCubeAxesActor>::New();
-    bb_actor->SetBounds(bbox.xmin, bbox.xmax, bbox.ymin, bbox.ymax, 0.0,
-                        std::abs(bbox.zmax - bbox.zmin));
-    bb_actor->SetCamera(renderer->GetActiveCamera());
-    bb_actor->DrawXGridlinesOn();
-    bb_actor->DrawYGridlinesOn();
-    bb_actor->DrawZGridlinesOn();
-    renderer->AddActor(bb_actor);
 }
 
 void displayCamera(Camera& camera, vtkSmartPointer<vtkRenderer> renderer,
@@ -174,7 +160,6 @@ int main() {
     BoundingBox bbox(ds->getCamera(0), ds->getCamera((NUM_IMGS / 4) - 1));
     auto bb_bounds = bbox.getBounds();
     auto vc = ret::make_unique<VoxelCarving>(bb_bounds, VOXEL_DIM);
-    displayBoundingBox(bb_bounds, renderer);
 
     double cam_color = 1.0;
     for (auto &camera : ds->getCameras()) {
